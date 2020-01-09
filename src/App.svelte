@@ -1,10 +1,13 @@
 <script>
-  let tasks = [
-    { id: 1, name: "Milk", done: false },
-    { id: 2, name: "Bread", done: true },
-    { id: 3, name: "Eggs", done: false }
-  ];
+  import { onMount } from 'svelte';
+
+  let tasks = [];
   let name = "";
+
+  onMount(async () => {
+	const res = await fetch(`http://localhost:8080/api/v1/tasks`);
+    tasks = await res.json();
+  });
 
   const addTask = () => {
     tasks = [
