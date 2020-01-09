@@ -1,30 +1,112 @@
 <script>
-	export let name;
+  let tasks = [
+    { id: 1, name: "Milk", done: false },
+    { id: 2, name: "Bread", done: true },
+    { id: 3, name: "Eggs", done: false }
+  ];
+  let name = "";
+
+  const addTask = () => {
+    tasks = [
+      ...tasks,
+      {
+        id: Math.random(),
+        name,
+        done: false
+      }
+    ];
+    name = "";
+  };
+
+  const remove = task => {
+    tasks = tasks.filter(i => i !== task);
+  };
+
+  const toggle = task => {
+    task.done = !task.done;
+    tasks = tasks;
+  };
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+  div,
+  h1 {
+    color: #333;
+    max-width: 300px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  }
+  #name {
+    width: 100%;
+  }
+  form {
+    margin-bottom: 0.5em;
+  }
+  input[type="text"] {
+    outline: none;
+    margin: 0;
+  }
+  input[type="text"]:focus {
+    border-color: #dc4f21;
+    box-shadow: 0 0 2px #dc4f21;
+  }
+  input[type="checkbox"] {
+    margin: 0 10px 0 0;
+  }
+  li button {
+    float: right;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    color: #dc4f21;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  li button:hover {
+    transform: scale(2);
+  }
+  li button:focus {
+    outline: #dc4f21;
+  }
+  li:last-child {
+    border-bottom: none;
+  }
+  label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    color: #777;
+  }
+  li {
+    list-style: none;
+    padding: 6px 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  ul {
+    padding-left: 0;
+  }
+  .done span {
+    opacity: 0.4;
+  }
 </style>
+
+<div>
+  <h1>Todo List 🗒️</h1>
+
+  <form on:submit|preventDefault={addTask}>
+    <label for="name">Add an task</label>
+    <input id="name" type="text" bind:value={name} />
+  </form>
+
+  <ul>
+    {#each tasks as task}
+      <li class:done={task.done}>
+
+        <input type="checkbox" bind:checked={task.done} />
+        <span>{task.name}</span>
+        <button on:click={() => remove(task)}>&times;</button>
+      </li>
+    {/each}
+  </ul>
+</div>
