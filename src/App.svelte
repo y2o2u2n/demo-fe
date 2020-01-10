@@ -17,7 +17,7 @@
 			headers: {
             	'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({name: name})
+			body: JSON.stringify({name: name, done: false})
 		}
 	);
 
@@ -26,8 +26,11 @@
     name = "";
   };
 
-  const remove = task => {
-    tasks = tasks.filter(i => i !== task);
+  const remove = async (task) => {
+	const res = await fetch(`http://localhost:8080/api/v1/tasks/${task.id}`, {method: `DELETE`});
+	if (res.ok) {
+    	tasks = tasks.filter(i => i !== task);
+	}
   };
 
   const toggle = task => {
