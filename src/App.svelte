@@ -33,9 +33,21 @@
 	}
   };
 
-  const toggle = task => {
-    task.done = !task.done;
-    tasks = tasks;
+  const toggle = async (task) => {
+	const res = await fetch(
+		`http://localhost:8080/api/v1/tasks/${task.id}`,
+		{
+			method: `PATCH`,
+			headers: {
+            	'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({name: task.name, done: !task.done})
+		}
+	);
+
+	const modifiedTask = await res.json();
+	task = modifiedTask;
+	tasks = tasks;
   };
 </script>
 
@@ -114,7 +126,7 @@
     {#each tasks as task}
       <li class:done={task.done}>
 
-        <input type="checkbox" bind:checked={task.done} />
+        <input type="checkbox" bind:checked={task.done} on:click={() => toggle(task)}/>
         <span>{task.name}</span>
         <button on:click={() => remove(task)}>&times;</button>
       </li>
