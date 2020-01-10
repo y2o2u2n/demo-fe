@@ -5,19 +5,24 @@
   let name = "";
 
   onMount(async () => {
-	const res = await fetch(`http://localhost:8080/api/v1/tasks`);
+	const res = await fetch(`http://localhost:8080/api/v1/tasks`, {method: `GET`});
     tasks = await res.json();
   });
 
-  const addTask = () => {
-    tasks = [
-      ...tasks,
-      {
-        id: Math.random(),
-        name,
-        done: false
-      }
-    ];
+  const addTask = async () => {
+	const res = await fetch(
+		`http://localhost:8080/api/v1/tasks`,
+		{
+			method: `POST`,
+			headers: {
+            	'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({name: name})
+		}
+	);
+
+	const newTask = await res.json();
+    tasks = [...tasks, newTask];
     name = "";
   };
 
