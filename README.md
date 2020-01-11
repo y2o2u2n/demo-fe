@@ -1,7 +1,10 @@
+- Run with [Todo App - Backend](https://github.com/y2o2u2n/demo-be)
+
+- Run
 ```
-# run
+# i) run
 $ npm install && npm run dev
 
-# docker run
+# ii) docker run
 $ docker build -t y2o2u2n/demo-fe . && docker run -p 5000:5000 y2o2u2n/demo-fe
 ```
