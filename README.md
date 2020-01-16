@@ -1,3 +1,9 @@
+- https://daveceddia.com/svelte-intro/
+
+- preview
+
+    ![preview](./preview.png)
+
 - Run with [Todo App - Backend](https://github.com/y2o2u2n/demo-be)
 
 - Run
